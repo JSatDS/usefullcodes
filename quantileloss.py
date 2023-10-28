@@ -16,6 +16,11 @@ class QuantileLoss(nn. Module):
         self.quantile = quantile_val
 
     def forward(self, input: Tensor, target: Tensor) -> Tensor:
+       
+        if input.shape != target.shape:
+            print('Check input shape!')
+            Print(f'target shape: {target.shape}, but input shape: {input.shape}')
+        
         residual = torch.subtract(target, input)
         loss = torch.maximum(self.quantile * residual, (self.quantile - 1) * residual)
         return torch.mean(loss)
